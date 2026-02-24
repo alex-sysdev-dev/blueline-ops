@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .glass-card {
+    /* Light Mode: High-opacity white; Dark Mode: Shady slate-800/80 */
+    @apply bg-white/95 dark:bg-slate-800/80 backdrop-blur-2xl 
+           border border-slate-200 dark:border-slate-700/50 
+           shadow-[0_20px_50px_rgba(59,130,246,0.12)] 
+           dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)]
+           rounded-[2.5rem] transition-all duration-500;
+  }
+
+  .glass-tile-btn {
+    @apply glass-card p-6 flex flex-col justify-between
+           hover:scale-[1.03] hover:-translate-y-2 
+           hover:bg-white dark:hover:bg-slate-700
+           hover:shadow-blue-500/30 cursor-pointer active:scale-95;
+  }
+}

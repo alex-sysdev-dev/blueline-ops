@@ -1,45 +1,62 @@
-// components/dashboard/KpiTile.jsx
 import React from 'react';
+import Link from 'next/link';
 
 export default function KpiTile({
   title,
   currentValue,
   vsYesterdayPercent,
   vsTargetPercent,
-  isPositiveGood 
+  isPositiveGood = true,
+  href
 }) {
   
+  // 1. MUST BE DEFINED FIRST: The color logic
   const getIndicatorColor = (percent) => {
-    if (percent === 0) return 'text-slate-300';
-    const isPositive = percent > 0;
-    const isGood = isPositive === isPositiveGood;
-    return isGood ? 'text-emerald-400' : 'text-rose-400'; 
+    if (!percent || percent === 0) return 'text-slate-400 dark:text-slate-500';
+    if (percent > 0) return isPositiveGood ? 'text-emerald-500' : 'text-rose-500';
+    return isPositiveGood ? 'text-rose-500' : 'text-emerald-500';
   };
 
-  return (
-    <div className="flex flex-col p-6 rounded-2xl bg-gradient-to-br from-blue-700 to-blue-950 border border-blue-500 shadow-lg shadow-blue-900/20 text-white relative overflow-hidden transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/40 cursor-default">
+  // 2. DEFINED SECOND: The tile content
+  const tileContent = (
+    <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-5 h-full flex flex-col justify-between hover:shadow-md transition-shadow">
       
-      {/* Glossy top highlight effect */}
-      <div className="absolute top-0 left-0 w-full h-1/2 bg-white opacity-5 rounded-t-2xl pointer-events-none"></div>
-
-      <h3 className="text-sm font-medium text-blue-200 mb-1 uppercase tracking-wider">{title}</h3>
-      <div className="text-4xl font-bold mb-4">{currentValue}</div>
+      <div className="mb-4">
+        <h3 className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">{title}</h3>
+        <div className="text-3xl font-bold text-slate-800 dark:text-white">
+          {currentValue}
+        </div>
+      </div>
       
-      <div className="flex flex-col gap-1 text-sm">
+      <div className="space-y-2 text-sm">
         <div className="flex justify-between items-center">
           <span className="text-blue-100/70">vs Yesterday</span>
           <span className={`font-semibold ${getIndicatorColor(vsYesterdayPercent)}`}>
             {vsYesterdayPercent > 0 ? '+' : ''}{vsYesterdayPercent}%
           </span>
         </div>
-        
-        <div className="flex justify-between items-center">
-          <span className="text-blue-100/70">vs Target</span>
-          <span className={`font-semibold ${getIndicatorColor(vsTargetPercent)}`}>
-            {vsTargetPercent > 0 ? '+' : ''}{vsTargetPercent}%
-          </span>
-        </div>
+
+        {vsTargetPercent !== undefined && vsTargetPercent !== 0 && (
+          <div className="flex justify-between items-center">
+            <span className="text-slate-500 dark:text-slate-400">vs Target</span>
+            <span className={`font-semibold ${getIndicatorColor(vsTargetPercent)}`}>
+              {vsTargetPercent > 0 ? '+' : ''}{vsTargetPercent}%
+            </span>
+          </div>
+        )}
       </div>
+
     </div>
   );
+
+  // 3. RETURN STATEMENT: Wrap in Link if href exists
+  if (href) {
+    return (
+      <Link href={href} className="block h-full hover:scale-[1.02] transition-transform duration-200 cursor-pointer">
+        {tileContent}
+      </Link>
+    );
+  }
+
+  return tileContent;
 }
