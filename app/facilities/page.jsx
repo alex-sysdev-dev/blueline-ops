@@ -3,6 +3,7 @@ import React from 'react';
 import { Building2, Users, AlertCircle, CheckCircle2 } from 'lucide-react';
 import AutoRefresh from '../../components/AutoRefresh'; // <-- The import is right here!
 import { getFacilities } from '../../lib/airtable';
+import BrandWordmark from '../../components/BrandWordmark';
 
 export default async function Facilities() {
   const facilities = await getFacilities();
@@ -10,8 +11,9 @@ export default async function Facilities() {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900 p-6 md:p-10 transition-colors duration-300">
       <header className="mb-8">
-        <h1 className="text-3xl font-extrabold text-slate-800 dark:text-white tracking-tight transition-colors">
-          Facility Network
+        <h1 className="text-3xl md:text-4xl font-extrabold text-slate-800 dark:text-white tracking-tight transition-colors font-heading">
+          <BrandWordmark className="mr-3" />
+          <span>Facility Network</span>
         </h1>
         <p className="text-slate-500 dark:text-slate-400 mt-2 transition-colors">
           Manage multi-site operations and network health.

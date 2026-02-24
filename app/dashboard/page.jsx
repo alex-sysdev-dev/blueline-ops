@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Download, Upload, Users, Truck, ShieldCheck, Activity } from 'lucide-react';
+import BrandWordmark from '../../components/BrandWordmark';
 
 export default function CommandCenter() {
   const tiles = [
@@ -17,12 +18,12 @@ export default function CommandCenter() {
       <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-blue-600/5 rounded-full blur-[120px] pointer-events-none" />
 
       <header className="relative z-10 mb-12">
-        <h1 className="text-4xl font-black uppercase tracking-tighter">
-          <span className="text-blue-600">Comm</span>
-          <span className="text-slate-900 dark:text-white">and Center</span>
+        <h1 className="text-4xl md:text-5xl font-black tracking-tight font-heading">
+          <BrandWordmark className="mr-3" />
+          <span className="text-slate-900 dark:text-white">Command Center</span>
         </h1>
         <p className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-widest mt-1">
-          Digital Twin v1.0 • Demonstration Environment
+          Leverage Data to Maximize Proformance
         </p>
       </header>
 

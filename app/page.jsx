@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Shield, Zap, ArrowRight } from 'lucide-react';
+import BrandWordmark from '../components/BrandWordmark';
 
 export default function LandingPage() {
   return (
@@ -13,9 +14,8 @@ export default function LandingPage() {
         </div>
 
         {/* HERO: Blue + LineOps */}
-        <h1 className="text-7xl md:text-9xl font-black leading-none mb-6 tracking-tighter">
-          <span className="text-blue-600">Blue</span>
-          <span className="text-slate-900 dark:text-white">LineOps</span>
+        <h1 className="text-7xl md:text-9xl font-black leading-none mb-6 tracking-tighter font-heading">
+          <BrandWordmark />
         </h1>
 
         <p className="max-w-xl text-center text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed mb-10">

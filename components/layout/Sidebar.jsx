@@ -5,6 +5,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { LayoutDashboard, Building2, ShieldCheck } from 'lucide-react';
+import BrandWordmark from '../BrandWordmark';
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -20,9 +21,12 @@ export default function Sidebar() {
       {/* Brand logo - Hidden on phones, visible on desktop */}
       <div className="hidden md:flex p-6 items-center gap-3 text-white">
         <ShieldCheck size={28} className="text-blue-500" />
-        <span className="text-xl font-extrabold tracking-wider">
-          <span className="text-blue-500">BLUE</span>LINE
-        </span>
+        <BrandWordmark
+          className="text-xl font-extrabold tracking-wider"
+          blueClassName="text-blue-500"
+          restClassName="text-white"
+          uppercase
+        />
       </div>
 
       {/* Navigation links - Row on phones, Column on desktop */}

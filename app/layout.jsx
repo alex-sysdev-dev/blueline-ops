@@ -1,23 +1,24 @@
-// app/layout.jsx
 import './globals.css';
-import { Outfit } from 'next/font/google';
+import { Outfit, Space_Grotesk } from 'next/font/google';
 import ThemeToggle from '../components/ThemeToggle';
 
-// Load the modern Outfit font
-const outfit = Outfit({ subsets: ['latin'] });
+const outfit = Outfit({ subsets: ['latin'], variable: '--font-body' });
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-heading',
+  weight: ['300', '400', '500', '600', '700'], 
+});
 
 export const metadata = {
-  title: 'Blueline Ops',
+  title: 'BlueLine Ops',
   description: 'Facility Operations Center',
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${outfit.className} bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300`}>
+      <body className={`${outfit.variable} ${spaceGrotesk.variable} ${outfit.className} bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300`}>
         {children}
-        
-        {/* Our floating dark mode button */}
         <ThemeToggle />
       </body>
     </html>
