@@ -2,6 +2,7 @@
 import './globals.css';
 import { Outfit } from 'next/font/google';
 import ThemeToggle from '../components/ThemeToggle';
+import { Analytics } from '@vercel/analytics/next';
 
 // Load the modern Outfit font
 const outfit = Outfit({ subsets: ['latin'] });
@@ -19,6 +20,7 @@ export default function RootLayout({ children }) {
         
         {/* Our floating dark mode button */}
         <ThemeToggle />
+        <Analytics />
       </body>
     </html>
   );
