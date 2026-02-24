@@ -4,7 +4,7 @@
 
 @layer components {
   .glass-card {
-    /* Light Mode: High-opacity white; Dark Mode: Shady slate-800/80 */
+    /* High-contrast visibility for both modes */
     @apply bg-white/95 dark:bg-slate-800/80 backdrop-blur-2xl 
            border border-slate-200 dark:border-slate-700/50 
            shadow-[0_20px_50px_rgba(59,130,246,0.12)] 

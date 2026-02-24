@@ -10,7 +10,7 @@ export default function DeepDive() {
   const [livePace, setLivePace] = useState(102.4);
 
   useEffect(() => {
-    setMounted(true);
+    setMounted(true); // Fixes the red error screen mismatch
     const interval = setInterval(() => {
       setLivePace(prev => +(prev + (Math.random() * 0.4 - 0.2)).toFixed(1));
     }, 2500);
@@ -47,30 +47,32 @@ export default function DeepDive() {
         </div>
       </header>
 
+      {/* Main Feature Area */}
       <div className="glass-card p-12 min-h-[400px] flex flex-col justify-between">
         <div className="flex justify-between items-start">
           <div>
             <h2 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">Operations Digital Twin</h2>
-            <p className="text-slate-500 dark:text-slate-400 mt-2">Algorithmic throughput forecasting.</p>
+            <p className="text-slate-500 dark:text-slate-400 mt-2">Demonstrating real-time algorithmic forecasting capability.</p>
           </div>
           <BarChart3 className="text-blue-500 animate-bounce" size={40} />
         </div>
+        
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
           <div className="glass-card !bg-white/50 !rounded-[2rem] p-8">
             <Target className="text-purple-500 mb-4" />
-            <p className="text-xs font-bold text-slate-500 uppercase tracking-tighter">Target</p>
+            <p className="text-xs font-bold text-slate-500 uppercase tracking-tighter">Target Threshold</p>
             <p className="text-3xl font-black text-slate-900 dark:text-white">105.0</p>
           </div>
           <div className="glass-card !bg-white/50 !rounded-[2rem] p-8 border-blue-500/30">
             <Activity className="text-blue-500 mb-4" />
-            <p className="text-xs font-bold text-slate-500 uppercase tracking-tighter">Current Pace</p>
+            <p className="text-xs font-bold text-slate-500 uppercase tracking-tighter">Current Pace (Demo)</p>
             <p className="text-4xl font-black text-blue-600 dark:text-blue-400">{livePace}</p>
           </div>
           <div className="glass-card !bg-white/50 !rounded-[2rem] p-8">
             <div className="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-full mb-4 overflow-hidden">
               <div className="h-full bg-emerald-500 w-[94%]" />
             </div>
-            <p className="text-xs font-bold text-slate-500 uppercase tracking-tighter">Health</p>
+            <p className="text-xs font-bold text-slate-500 uppercase tracking-tighter">Algorithm Health</p>
             <p className="text-3xl font-black text-slate-900 dark:text-white">94%</p>
           </div>
         </div>
