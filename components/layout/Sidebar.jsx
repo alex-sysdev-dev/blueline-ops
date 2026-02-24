@@ -1,5 +1,5 @@
-// components/Sidebar.jsx
-"use client"; // We need this so the sidebar can read the live web address!
+// components/layout/Sidebar.jsx
+"use client";
 
 import React from 'react';
 import Link from 'next/link';
@@ -7,7 +7,6 @@ import { usePathname } from 'next/navigation';
 import { LayoutDashboard, Building2, ShieldCheck } from 'lucide-react';
 
 export default function Sidebar() {
-  // This grabs the current URL (e.g., '/dashboard' or '/facilities')
   const pathname = usePathname();
 
   const navItems = [
@@ -16,17 +15,19 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="w-64 bg-slate-900 flex flex-col min-h-screen border-r border-slate-800 transition-colors duration-300">
-      <div className="p-6 flex items-center gap-3 text-white">
+    <aside className="fixed bottom-0 left-0 z-40 w-full bg-slate-900 border-t border-slate-800 md:relative md:w-64 md:min-h-screen md:border-t-0 md:border-r md:flex md:flex-col transition-colors duration-300">
+      
+      {/* Brand logo - Hidden on phones, visible on desktop */}
+      <div className="hidden md:flex p-6 items-center gap-3 text-white">
         <ShieldCheck size={28} className="text-blue-500" />
         <span className="text-xl font-extrabold tracking-wider">
           <span className="text-blue-500">BLUE</span>LINE
         </span>
       </div>
 
-      <nav className="flex-1 px-4 py-6 space-y-2">
+      {/* Navigation links - Row on phones, Column on desktop */}
+      <nav className="flex flex-row justify-around items-center h-16 md:flex-col md:h-auto md:flex-1 md:px-4 md:py-6 md:space-y-2 md:justify-start">
         {navItems.map((item) => {
-          // Check if this button's link matches the current page URL
           const isActive = pathname === item.href;
           const Icon = item.icon;
 
@@ -34,14 +35,14 @@ export default function Sidebar() {
             <Link
               key={item.name}
               href={item.href}
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 font-medium ${
+              className={`flex flex-col md:flex-row items-center justify-center gap-1 md:gap-3 w-full h-full md:w-auto md:h-auto md:px-4 md:py-3 md:rounded-xl transition-all duration-200 font-medium ${
                 isActive 
-                  ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20' // Active state (Blue)
-                  : 'text-slate-400 hover:bg-slate-800 hover:text-white'   // Inactive state (Gray)
+                  ? 'text-blue-500 md:bg-blue-600 md:text-white md:shadow-md md:shadow-blue-600/20' 
+                  : 'text-slate-400 hover:text-white md:hover:bg-slate-800'
               }`}
             >
-              <Icon size={20} />
-              {item.name}
+              <Icon size={20} className={isActive ? "md:text-white" : ""} />
+              <span className="text-[10px] md:text-base">{item.name}</span>
             </Link>
           );
         })}
