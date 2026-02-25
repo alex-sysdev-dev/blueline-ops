@@ -14,7 +14,7 @@ export default function CommandCenter() {
   ];
 
   return (
-    <div className="flex-1 p-8 md:p-12 relative overflow-hidden bg-slate-50 dark:bg-slate-950 min-h-screen">
+    <div className="relative overflow-hidden">
       <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-blue-600/5 rounded-full blur-[120px] pointer-events-none" />
 
       <header className="relative z-10 mb-12">

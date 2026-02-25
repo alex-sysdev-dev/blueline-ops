@@ -4,16 +4,18 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Building2, ShieldCheck } from 'lucide-react';
+import { LayoutDashboard, Building2, ShieldCheck, Gauge } from 'lucide-react';
 import BrandWordmark from '../BrandWordmark';
 
 export default function Sidebar() {
   const pathname = usePathname();
 
   const navItems = [
-    { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-    { name: 'Facilities', href: '/facilities', icon: Building2 },
-  ];
+  { name: 'Control Center', href: '/control-center', icon: Gauge },
+  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+  { name: 'Facilities', href: '/facilities', icon: Building2 },
+  
+];
 
   return (
     <aside className="fixed bottom-0 left-0 z-40 w-full bg-slate-900 border-t border-slate-800 md:relative md:w-64 md:min-h-screen md:border-t-0 md:border-r md:flex md:flex-col transition-colors duration-300">
