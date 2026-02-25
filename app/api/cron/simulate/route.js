@@ -3,14 +3,18 @@ export const dynamic = 'force-dynamic';
 import { NextResponse } from 'next/server';
 const Airtable = require('airtable');
 
-const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(process.env.AIRTABLE_BASE_ID);
-
 export async function GET() {
+
+  const base = new Airtable({
+    apiKey: process.env.AIRTABLE_ACCESS_TOKEN, // make sure this matches Vercel
+  }).base(process.env.AIRTABLE_BASE_ID);
+
   const timestamp = new Date().toISOString();
 
   try {
-    // 1. YMS_Log
+
     const origins = ['Chicago', 'Kansas City', 'Dallas', 'Oklahoma City', 'Denver', 'Wichita', 'Tulsa'];
+
     if (Math.random() > 0.6) {
       await base('YMS_Log').create([{
         fields: {
@@ -19,13 +23,13 @@ export async function GET() {
           Appointment_Time: timestamp,
           Geofence_Check_In: timestamp,
           Status: 'Yard',
-          Dwell_Time_Mins: 0 
+          Dwell_Time_Mins: 0
         }
       }]);
     }
 
-    // 2. Facility_Metrics
     const riskLevels = ['Low', 'Medium', 'High'];
+
     await base('Facility_Metrics').create([{
       fields: {
         Timestamp: timestamp,
@@ -36,7 +40,6 @@ export async function GET() {
       }
     }]);
 
-    // 3. Inbound_Metrics
     await base('Inbound_Metrics').create([{
       fields: {
         Associate: 'System Aggregate',
@@ -48,11 +51,10 @@ export async function GET() {
       }
     }]);
 
-    // 4. Outbound_Metrics
     const pickRate = Math.floor(Math.random() * 20) + 90;
     const packRate = Math.floor(Math.random() * 30) + 130;
     const pendingPick = Math.floor(Math.random() * 3000) + 500;
-    
+
     await base('Outbound_Metrics').create([{
       fields: {
         Associate: 'System Aggregate',
@@ -68,7 +70,6 @@ export async function GET() {
       }
     }]);
 
-    // 5. QA_Metrics
     await base('QA_Metrics').create([{
       fields: {
         Associate: 'System Aggregate',
@@ -79,41 +80,16 @@ export async function GET() {
       }
     }]);
 
-    // 6. Associate_Performance
-    const rosterRecords = await base('Associate_Roster').select().firstPage();
-    const associateLogs = [];
-
-    rosterRecords.forEach(worker => {
-      if (Math.random() > 0.10) { 
-        const role = worker.fields.Role || 'Picker';
-        const baseUph = worker.fields.Base_UPH || 100;
-        const actualUph = Math.round(baseUph * (0.8 + (Math.random() * 0.4))); 
-        
-        let dept = 'Outbound';
-        if (role === 'Forklift' || role === 'Receiver') dept = 'Inbound';
-
-        associateLogs.push({
-          fields: {
-            Timestamp: timestamp,
-            Employee_ID: String(worker.fields.Employee_ID || "EMP-001"), 
-            Department: dept,
-            Current_UPH: actualUph,
-            Quality_Score_Pct: 0.95 + (Math.random() * 0.05),
-            Dwell_Time_Mins: Math.random() > 0.85 ? Math.floor(Math.random() * 15) : 0,
-            Total_Scans: Math.round(actualUph / 4)
-          }
-        });
-      }
+    return NextResponse.json({
+      success: true,
+      message: 'Simulation data populated successfully.'
     });
-
-    while (associateLogs.length > 0) {
-      await base('Associate_Performance').create(associateLogs.splice(0, 10));
-    }
-
-    return NextResponse.json({ success: true, message: 'Simulation data populated successfully.' });
 
   } catch (error) {
     console.error('Simulation Error:', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 }
+    );
   }
 }
