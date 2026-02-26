@@ -4,7 +4,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Building2, ShieldCheck, Gauge } from 'lucide-react';
+import { LayoutDashboard, Building2, Gauge } from 'lucide-react';
 import BrandWordmark from '../BrandWordmark';
 
 export default function Sidebar() {
@@ -22,7 +22,11 @@ export default function Sidebar() {
       
       {/* Brand logo - Hidden on phones, visible on desktop */}
       <div className="hidden md:flex p-6 items-center gap-3 text-white">
-        <ShieldCheck size={28} className="text-blue-500" />
+        <img
+          src="/brand/logo-header.svg"
+          alt="BlueLine Ops"
+          className="h-8 w-8"
+        />
         <BrandWordmark
           className="text-xl font-extrabold tracking-wider"
           blueClassName="text-blue-500"

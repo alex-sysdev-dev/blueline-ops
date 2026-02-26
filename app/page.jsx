@@ -1,49 +1,52 @@
-import React from 'react';
-import Link from 'next/link';
-import { Shield, Zap, ArrowRight } from 'lucide-react';
-import BrandWordmark from '../components/BrandWordmark';
+import React from "react";
+import Link from "next/link";
 
 export default function LandingPage() {
   return (
-    <div className="h-screen w-full bg-white dark:bg-slate-950 overflow-hidden relative flex flex-col justify-center items-center">
-      <div className="absolute top-[-5%] left-[-5%] w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none" />
-      
-      <main className="relative z-10 w-full max-w-6xl px-6 flex flex-col items-center">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 glass-card !rounded-full text-blue-600 dark:text-blue-400 text-[10px] font-black uppercase tracking-widest mb-6 border-blue-500/20">
-          <Shield size={12} /> Solution Architecture Demonstration
+    <div className="min-h-screen bg-white dark:bg-slate-950 flex flex-col justify-center items-center px-6 relative">
+
+      {/* Subtle Background Glow */}
+      <div className="absolute top-[-10%] left-[-10%] w-[600px] h-[600px] bg-blue-600/5 rounded-full blur-[140px] pointer-events-none" />
+
+      <main className="relative z-10 flex flex-col items-center text-center w-full max-w-[1200px] gap-8">
+
+        {/* YOUR SVG LOGO GOES HERE */}
+        <div className="w-full flex justify-center">
+          <img
+            src="/brand/logo-light.svg"
+            alt="BlueLine Ops"
+            className="w-full max-w-[780px] md:max-w-[900px] h-auto dark:hidden"
+          />
+          <img
+            src="/brand/logo-dark.svg"
+            alt="BlueLine Ops"
+            className="w-full max-w-[780px] md:max-w-[900px] h-auto hidden dark:block"
+          />
         </div>
 
-        {/* HERO: Blue + LineOps */}
-        <h1 className="text-7xl md:text-9xl font-black leading-none mb-6 tracking-tighter font-heading">
-          <BrandWordmark />
+        <h1 className="w-full text-center text-2xl md:text-4xl font-extrabold tracking-tight">
+          <span className="text-blue-600 dark:text-blue-500">Operational</span>{' '}
+          <span className="text-slate-900 dark:text-white">Intelligence</span>{' '}
+          <span className="text-slate-700 dark:text-slate-300">for Logistics</span>
         </h1>
 
-        <p className="max-w-xl text-center text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed mb-10">
-          I architect <strong>Digital Twins</strong> that turn live data into automated intelligence. 
-          This demo highlights my capability to build real-time WES monitoring systems.
-        </p>
+        <div className="flex flex-col items-center gap-3">
+          <Link
+            href="/control-center"
+            className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold text-lg transition shadow-lg"
+          >
+            Enter Platform
+          </Link>
 
-        <Link href="/dashboard" className="group px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-bold text-base flex items-center gap-3 shadow-2xl transition-all hover:scale-105 mb-12">
-          Launch Platform Demo <ArrowRight className="group-hover:translate-x-2 transition-transform" />
-        </Link>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
-          <div className="glass-card p-6">
-            <Zap className="text-blue-500 mb-2" size={24} />
-            <h3 className="text-lg font-black text-slate-900 dark:text-white mb-1">Architecture</h3>
-            <p className="text-slate-500 dark:text-slate-400 text-xs leading-relaxed">Proof-of-concept for real-time Airtable telemetry syncing.</p>
-          </div>
-          <div className="glass-card p-6">
-            <Shield className="text-purple-500 mb-2" size={24} />
-            <h3 className="text-lg font-black text-slate-900 dark:text-white mb-1">Logic Layers</h3>
-            <p className="text-slate-500 dark:text-slate-400 text-xs leading-relaxed">Custom algorithms designed to predict bottlenecks and UPH.</p>
-          </div>
-          <div className="glass-card p-6">
-            <Shield className="text-emerald-500 mb-2" size={24} />
-            <h3 className="text-lg font-black text-slate-900 dark:text-white mb-1">WES Ready</h3>
-            <p className="text-slate-500 dark:text-slate-400 text-xs leading-relaxed">Scalable solutions for high-volume enterprise facilities.</p>
-          </div>
+          {/* Subtle Admin Link */}
+          <Link
+            href="/login"
+            className="text-xs text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 transition"
+          >
+            Admin Access
+          </Link>
         </div>
+
       </main>
     </div>
   );
