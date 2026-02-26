@@ -1,4 +1,5 @@
 export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 
 import { NextResponse } from 'next/server';
 const Airtable = require('airtable');
@@ -6,7 +7,7 @@ const Airtable = require('airtable');
 export async function GET() {
 
   const base = new Airtable({
-    apiKey: process.env.AIRTABLE_ACCESS_TOKEN, // make sure this matches Vercel
+    apiKey: process.env.AIRTABLE_ACCESS_TOKEN,
   }).base(process.env.AIRTABLE_BASE_ID);
 
   const timestamp = new Date().toISOString();
