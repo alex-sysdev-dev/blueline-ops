@@ -2,45 +2,48 @@ export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
 import { NextResponse } from 'next/server';
-const Airtable = require('airtable');
-const base = new Airtable({
-  apiKey: process.env.AIRTABLE_ACCESS_TOKEN
-}).base(process.env.AIRTABLE_BASE_ID);
 
-// Helper function to grab the single newest row from a table
-async function getLatest(base, tableName) {
-  try {
-    const records = await base(tableName).select({
-      maxRecords: 1,
-      sort: [{ field: 'Timestamp', direction: 'desc' }]
-    }).firstPage();
+const BASE_ID = process.env.AIRTABLE_BASE_ID;
+const TOKEN = process.env.AIRTABLE_ACCESS_TOKEN;
 
-    return records[0]?.fields || null;
+async function getLatest(table) {
+  const url = `https://api.airtable.com/v0/${BASE_ID}/${table}?maxRecords=1&sort[0][field]=Timestamp&sort[0][direction]=desc`;
 
-  } catch (e) {
-    console.error(`Error fetching ${tableName}:`, e);
-    return null;
+  const res = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${TOKEN}`,
+    },
+    cache: 'no-store',
+  });
+
+  if (!res.ok) {
+    throw new Error(`Airtable error: ${res.status}`);
   }
+
+  const data = await res.json();
+  return data.records?.[0]?.fields || null;
 }
 
 export async function GET() {
-
-  const base = new Airtable({
-    apiKey: process.env.AIRTABLE_ACCESS_TOKEN, // MUST match Vercel
-  }).base(process.env.AIRTABLE_BASE_ID);
-
   try {
-
     const [facility, inbound, outbound, qa] = await Promise.all([
-      getLatest(base, 'Facility_Metrics'),
-      getLatest(base, 'Inbound_Metrics'),
-      getLatest(base, 'Outbound_Metrics'),
-      getLatest(base, 'QA_Metrics')
+      getLatest('Facility_Metrics'),
+      getLatest('Inbound_Metrics'),
+      getLatest('Outbound_Metrics'),
+      getLatest('QA_Metrics'),
     ]);
 
-    const yardRecords = await base('YMS_Log').select({
-      filterByFormula: "Status != 'Dispatched'"
-    }).all();
+    // YMS active trailers
+    const yardUrl = `https://api.airtable.com/v0/${BASE_ID}/YMS_Log?filterByFormula=Status!='Dispatched'`;
+
+    const yardRes = await fetch(yardUrl, {
+      headers: {
+        Authorization: `Bearer ${TOKEN}`,
+      },
+      cache: 'no-store',
+    });
+
+    const yardData = await yardRes.json();
 
     return NextResponse.json({
       success: true,
@@ -49,8 +52,8 @@ export async function GET() {
         inbound,
         outbound,
         qa,
-        active_trailers: yardRecords.length
-      }
+        active_trailers: yardData.records?.length || 0,
+      },
     });
 
   } catch (error) {
