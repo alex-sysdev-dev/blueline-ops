@@ -6,6 +6,9 @@ const Airtable = require('airtable');
 
 export async function GET() {
 
+  console.log("TOKEN:", process.env.AIRTABLE_ACCESS_TOKEN);
+  console.log("BASE:", process.env.AIRTABLE_BASE_ID);
+
   const base = new Airtable({
     apiKey: process.env.AIRTABLE_ACCESS_TOKEN,
   }).base(process.env.AIRTABLE_BASE_ID);
