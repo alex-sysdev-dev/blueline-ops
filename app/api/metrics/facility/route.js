@@ -1,17 +1,19 @@
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 import { NextResponse } from 'next/server';
-// Using require to match how we fixed the simulation file
 const Airtable = require('airtable');
 
-const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(process.env.AIRTABLE_BASE_ID);
-
 // Helper function to grab the single newest row from a table
-async function getLatest(tableName) {
+async function getLatest(base, tableName) {
   try {
     const records = await base(tableName).select({
       maxRecords: 1,
       sort: [{ field: 'Timestamp', direction: 'desc' }]
     }).firstPage();
+
     return records[0]?.fields || null;
+
   } catch (e) {
     console.error(`Error fetching ${tableName}:`, e);
     return null;
@@ -19,16 +21,20 @@ async function getLatest(tableName) {
 }
 
 export async function GET() {
+
+  const base = new Airtable({
+    apiKey: process.env.AIRTABLE_ACCESS_TOKEN, // MUST match Vercel
+  }).base(process.env.AIRTABLE_BASE_ID);
+
   try {
-    // Fetch all department snapshots at the exact same time for speed
+
     const [facility, inbound, outbound, qa] = await Promise.all([
-      getLatest('Facility_Metrics'),
-      getLatest('Inbound_Metrics'),
-      getLatest('Outbound_Metrics'),
-      getLatest('QA_Metrics')
+      getLatest(base, 'Facility_Metrics'),
+      getLatest(base, 'Inbound_Metrics'),
+      getLatest(base, 'Outbound_Metrics'),
+      getLatest(base, 'QA_Metrics')
     ]);
 
-    // Count how many trailers are currently in the yard
     const yardRecords = await base('YMS_Log').select({
       filterByFormula: "Status != 'Dispatched'"
     }).all();
@@ -43,7 +49,11 @@ export async function GET() {
         active_trailers: yardRecords.length
       }
     });
+
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 }
+    );
   }
 }
