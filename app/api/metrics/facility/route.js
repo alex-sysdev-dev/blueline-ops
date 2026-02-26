@@ -3,6 +3,9 @@ export const runtime = 'nodejs';
 
 import { NextResponse } from 'next/server';
 const Airtable = require('airtable');
+const base = new Airtable({
+  apiKey: process.env.AIRTABLE_ACCESS_TOKEN
+}).base(process.env.AIRTABLE_BASE_ID);
 
 // Helper function to grab the single newest row from a table
 async function getLatest(base, tableName) {
