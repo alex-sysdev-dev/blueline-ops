@@ -29,10 +29,7 @@
   </g>
 
   <!-- Text -->
-  <text x="110" y="65" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="600">
-    <tspan fill="#3B82F6">Blue</tspan>
-    <tspan fill="#FFFFFF">LineOps</tspan>
-  </text>
+  <text x="110" y="65" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="600"><tspan fill="#3B82F6">Blue</tspan><tspan fill="#FFFFFF">LineOps</tspan></text>
 
 </svg>
 

@@ -15,7 +15,7 @@ const sora = Sora({
 });
 
 export const metadata = {
-  title: 'BlueLine Ops',
+  title: 'BlueLineOps',
   description: 'Operations Intelligence Platform',
 };
 

@@ -31,7 +31,7 @@ export default function Sidebar({ isAdmin = false }) {
       <Link href="/" className="hidden md:flex p-6 items-center gap-3 text-white">
         <img
           src="/brand/logo-header.svg"
-          alt="BlueLine Ops"
+          alt="BlueLineOps"
           className="h-8 w-8"
         />
         <BrandWordmark

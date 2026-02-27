@@ -15,13 +15,13 @@ export default function LandingPage() {
           <div className="w-full flex justify-center">
             <img
               src="/brand/logo-light.svg"
-              alt="BlueLine Ops"
+              alt="BlueLineOps"
               className="block h-[200px] md:h-[260px] w-auto dark:hidden"
               loading="eager"
             />
             <img
               src="/brand/logo-dark.svg"
-              alt="BlueLine Ops"
+              alt="BlueLineOps"
               className="block h-[200px] md:h-[260px] w-auto hidden dark:block"
               loading="eager"
             />

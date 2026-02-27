@@ -10,7 +10,7 @@ export default function Header() {
       <Link href="/" className="flex items-center">
         <img
           src="/brand/logo-dark.svg"
-          alt="BlueLine Ops"
+          alt="BlueLineOps"
           className="h-10 md:h-12"
         />
       </Link>
