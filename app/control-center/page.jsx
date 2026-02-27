@@ -2,6 +2,7 @@ import React from 'react';
 import { getControlCenterData } from '../../lib/airtable';
 import Card from '../../components/ui/Card';
 import { Activity } from 'lucide-react';
+import AutoRefresh from '../../components/AutoRefresh';
 
 export default async function ControlCenter() {
   const data = await getControlCenterData();
@@ -12,6 +13,7 @@ export default async function ControlCenter() {
 
   return (
     <div>
+      <AutoRefresh intervalSeconds={10} />
       <h1 className="text-3xl font-bold mb-8">
   <span className="text-blue-600 dark:text-blue-400">Control</span>{' '}
   <span>Center</span>

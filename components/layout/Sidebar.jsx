@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation';
 import { LayoutDashboard, Building2, Gauge, Truck, Download, Upload, ShieldCheck, Users, Activity, Play, LayoutGrid } from 'lucide-react';
 import BrandWordmark from '../BrandWordmark';
 
-export default function Sidebar() {
+export default function Sidebar({ isAdmin = false }) {
   const pathname = usePathname();
 
   const navItems = [
@@ -21,14 +21,14 @@ export default function Sidebar() {
     { name: 'QA', href: '/dashboard/qa', icon: ShieldCheck },
     { name: 'Associates', href: '/dashboard/associates', icon: Users },
     { name: 'Facilities', href: '/facilities', icon: Building2 },
-    { name: 'Simulation', href: '/admin/simulation', icon: Play },
+    ...(isAdmin ? [{ name: 'Simulation', href: '/admin/simulation', icon: Play }] : []),
   ];
 
   return (
     <aside className="fixed bottom-0 left-0 z-40 w-full bg-slate-900 border-t border-slate-800 md:relative md:w-64 md:min-h-screen md:border-t-0 md:border-r md:flex md:flex-col transition-colors duration-300">
       
       {/* Brand logo - Hidden on phones, visible on desktop */}
-      <div className="hidden md:flex p-6 items-center gap-3 text-white">
+      <Link href="/" className="hidden md:flex p-6 items-center gap-3 text-white">
         <img
           src="/brand/logo-header.svg"
           alt="BlueLine Ops"
@@ -40,7 +40,7 @@ export default function Sidebar() {
           restClassName="text-white"
           uppercase
         />
-      </div>
+      </Link>
 
       {/* Navigation links - Row on phones, Column on desktop */}
       <nav className="flex flex-row justify-around items-center h-14 md:flex-col md:h-auto md:flex-1 md:px-3 md:py-4 md:space-y-1.5 md:justify-start">

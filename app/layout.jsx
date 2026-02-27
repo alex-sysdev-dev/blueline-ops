@@ -1,5 +1,6 @@
 import './globals.css';
 import { Sora, Manrope } from 'next/font/google';
+import { cookies } from 'next/headers';
 import LayoutShell from '../components/layout/layoutshell';
 
 const manrope = Manrope({
@@ -19,12 +20,15 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  const cookieStore = cookies();
+  const isAdmin = cookieStore.get('blueline_admin')?.value === '1';
+
   return (
     <html lang="en">
       <body
         className={`${manrope.variable} ${sora.variable} ${manrope.className} bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300`}
       >
-        <LayoutShell>
+        <LayoutShell isAdmin={isAdmin}>
           {children}
         </LayoutShell>
       </body>

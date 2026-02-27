@@ -3,12 +3,14 @@ import Card from '../../../components/ui/Card';
 import Link from 'next/link';
 import AssociateList from '../../../components/dashboard/AssociateList';
 import { getAssociatesByDepartment } from '../../../lib/airtable';
+import AutoRefresh from '../../../components/AutoRefresh';
 
 export default async function OutboundDashboard() {
   const associates = await getAssociatesByDepartment('Outbound');
 
   return (
     <div className="space-y-6">
+      <AutoRefresh intervalSeconds={10} />
       <header>
         <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
           Outbound Dashboard

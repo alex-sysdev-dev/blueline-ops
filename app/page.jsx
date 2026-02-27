@@ -15,19 +15,19 @@ export default function LandingPage() {
           <img
             src="/brand/logo-light.svg"
             alt="BlueLine Ops"
-            className="w-full max-w-[780px] md:max-w-[900px] h-auto dark:hidden"
+            className="h-[200px] md:h-[260px] w-auto dark:hidden"
           />
           <img
             src="/brand/logo-dark.svg"
             alt="BlueLine Ops"
-            className="w-full max-w-[780px] md:max-w-[900px] h-auto hidden dark:block"
+            className="h-[200px] md:h-[260px] w-auto hidden dark:block"
           />
         </div>
 
-        <h1 className="w-full text-center text-2xl md:text-4xl font-extrabold tracking-tight">
-          <span className="text-blue-600 dark:text-blue-500">Operational</span>{' '}
+        <h1 className="w-full text-center text-3xl md:text-5xl font-extrabold tracking-tight">
+          <span className="text-blue-600 dark:text-blue-400">Operational</span>{' '}
           <span className="text-slate-900 dark:text-white">Intelligence</span>{' '}
-          <span className="text-slate-700 dark:text-slate-300">for Logistics</span>
+          <span className="text-blue-600 dark:text-blue-400">for Logistics</span>
         </h1>
 
         <div className="flex flex-col items-center gap-3">

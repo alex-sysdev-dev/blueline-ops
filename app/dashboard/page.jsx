@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Download, Upload, Users, Truck, ShieldCheck, Activity } from 'lucide-react';
 import BrandWordmark from '../../components/BrandWordmark';
 import Card from '../../components/ui/Card';
+import AutoRefresh from '../../components/AutoRefresh';
 
 export default function CommandCenter() {
   const tiles = [
@@ -16,6 +17,7 @@ export default function CommandCenter() {
 
   return (
     <div className="relative overflow-hidden">
+      <AutoRefresh intervalSeconds={10} />
       <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-blue-600/5 rounded-full blur-[120px] pointer-events-none" />
 
       <header className="relative z-10 mb-12">

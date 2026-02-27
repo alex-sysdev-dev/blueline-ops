@@ -2,6 +2,7 @@ import React from "react";
 import Card from "../../../components/ui/Card";
 import YmsCharts from "../../../components/dashboard/YmsCharts";
 import { getYmsLog } from "../../../lib/airtable";
+import AutoRefresh from "../../../components/AutoRefresh";
 
 const YARD_CAPACITY = 50;
 const INBOUND_DOCKS = 14;
@@ -109,6 +110,7 @@ export default async function YmsOverview() {
 
   return (
     <div className="space-y-6">
+      <AutoRefresh intervalSeconds={10} />
       <header>
         <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
           <span className="text-blue-600 dark:text-blue-400">YMS</span> Overview

@@ -3,6 +3,7 @@ import Card from '../../../components/ui/Card';
 import Link from 'next/link';
 import PickPackFloorplan from '../../../components/dashboard/PickPackFloorplan';
 import { getPickPackStations, getOrders } from '../../../lib/airtable';
+import AutoRefresh from '../../../components/AutoRefresh';
 
 
 export default async function PickPackStations() {
@@ -27,6 +28,7 @@ export default async function PickPackStations() {
 
   return (
     <div className="space-y-6">
+      <AutoRefresh intervalSeconds={10} />
       <header className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
         <div>
           <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">

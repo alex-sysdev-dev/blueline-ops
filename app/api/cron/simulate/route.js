@@ -5,10 +5,6 @@ import { NextResponse } from 'next/server';
 const Airtable = require('airtable');
 
 export async function GET() {
-
-  console.log("TOKEN:", process.env.AIRTABLE_ACCESS_TOKEN);
-  console.log("BASE:", process.env.AIRTABLE_BASE_ID);
-
   const base = new Airtable({
     apiKey: process.env.AIRTABLE_ACCESS_TOKEN,
   }).base(process.env.AIRTABLE_BASE_ID);
@@ -26,8 +22,7 @@ export async function GET() {
           Origin: origins[Math.floor(Math.random() * origins.length)],
           Appointment_Time: timestamp,
           Geofence_Check_In: timestamp,
-          Status: 'Yard',
-          Dwell_Time_Mins: 0
+          Status: 'Yard'
         }
       }]);
     }
