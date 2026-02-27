@@ -66,8 +66,8 @@ export default function DeepDive() {
             <span className="text-blue-600">{firstWord}</span>
             <span className="text-slate-900 dark:text-white ml-2">{restOfTitle}</span>
           </h1>
-          <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 glass-card !rounded-full text-emerald-500 text-xs font-black uppercase tracking-widest border border-emerald-500/20 animate-pulse">
-            <Zap size={14} /> Digital Twin Active
+          <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 glass-card !rounded-full text-emerald-500 text-xs font-black uppercase tracking-widest border border-emerald-500/20">
+            <Zap size={14} /> Live Operations
           </div>
         </div>
         <div className="glass-card px-6 py-4 flex items-center gap-4">
@@ -82,8 +82,8 @@ export default function DeepDive() {
       <div className="glass-card p-12 min-h-[400px] flex flex-col justify-between">
         <div className="flex justify-between items-start">
           <div>
-            <h2 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">Operations Digital Twin</h2>
-            <p className="text-slate-500 dark:text-slate-400 mt-2">Real-time algorithmic forecasting demonstration.</p>
+            <h2 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">Operations Overview</h2>
+            <p className="text-slate-500 dark:text-slate-400 mt-2">Real-time operational performance overview.</p>
           </div>
           <BarChart3 className="text-blue-500 animate-bounce" size={40} />
         </div>

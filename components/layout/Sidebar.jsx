@@ -20,7 +20,6 @@ export default function Sidebar() {
     { name: 'Pick/Pack Floor', href: '/dashboard/pick-pack/floorplan', icon: LayoutGrid },
     { name: 'QA', href: '/dashboard/qa', icon: ShieldCheck },
     { name: 'Associates', href: '/dashboard/associates', icon: Users },
-    { name: 'Facility', href: '/dashboard/facility', icon: Activity },
     { name: 'Facilities', href: '/facilities', icon: Building2 },
     { name: 'Simulation', href: '/admin/simulation', icon: Play },
   ];

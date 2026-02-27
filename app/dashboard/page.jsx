@@ -11,7 +11,7 @@ export default function CommandCenter() {
     { id: 'Associate_Performance', label: 'Associates', value: '102', sub: 'UPH', icon: <Users size={24} />, color: 'text-purple-500' },
     { id: 'YMS_Log', href: '/dashboard/yms', label: 'Yard/YMS', value: '14', sub: 'Trailers', icon: <Truck size={24} />, color: 'text-amber-500' },
     { id: 'QA_Metrics', label: 'Quality', value: '99.8%', sub: 'Accuracy', icon: <ShieldCheck size={24} />, color: 'text-rose-500' },
-    { id: 'Facility_Metrics', label: 'Facility', value: 'Low', sub: 'Risk', icon: <Activity size={24} />, color: 'text-cyan-500' },
+    { id: 'Facility_Metrics', href: '/facilities', label: 'Facility', value: 'Low', sub: 'Risk', icon: <Activity size={24} />, color: 'text-cyan-500' },
   ];
 
   return (
