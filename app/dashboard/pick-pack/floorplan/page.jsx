@@ -13,7 +13,8 @@ export default async function PickPackFloorplanOnly() {
       <header className="flex items-end justify-between">
         <div>
           <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-            Pick & Pack Floorplan
+            <span className="text-blue-600 dark:text-blue-400">Pick</span>{' '}
+            <span>& Pack Floorplan</span>
           </h1>
           <p className="text-slate-500 dark:text-slate-400 mt-1">
             Full-screen station layout with aisle labels.

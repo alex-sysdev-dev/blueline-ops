@@ -48,13 +48,13 @@ export default function DeepDive() {
     return () => clearInterval(interval);
   }, []);
 
-  if (!mounted) return <div className="min-h-screen bg-white dark:bg-slate-950" />;
+  if (!mounted) return <div className="min-h-screen bg-transparent" />;
 
   const firstWord = table.split('_')[0];
   const restOfTitle = table.split('_').slice(1).join(' ');
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 p-6 md:p-12 relative overflow-hidden">
+    <div className="min-h-screen bg-transparent p-6 md:p-12 relative overflow-hidden">
       <button onClick={() => router.push('/dashboard')} className="flex items-center gap-2 text-slate-500 hover:text-blue-500 transition-colors mb-8 font-bold uppercase text-sm">
         <ChevronLeft size={20} /> Back to Command Center
       </button>

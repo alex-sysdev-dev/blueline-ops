@@ -13,7 +13,8 @@ export default async function OutboundDashboard() {
       <AutoRefresh intervalSeconds={10} />
       <header>
         <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-          Outbound Dashboard
+          <span className="text-blue-600 dark:text-blue-400">Outbound</span>{' '}
+          <span>Dashboard</span>
         </h1>
         <p className="text-slate-500 dark:text-slate-400 mt-1">
           Protect CPT and outbound throughput.

@@ -16,7 +16,7 @@ import {
 export default function YmsCharts({ lineData = [], barData = [] }) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-      <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200/80 dark:border-slate-700/80 p-6 shadow-sm hover:shadow-xl hover:shadow-slate-200/60 dark:hover:shadow-black/30 transition-all">
+      <div className="glass-tile-dark p-6">
         <h3 className="text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-4">
           Dwell Trend (Minutes)
         </h3>
@@ -39,7 +39,7 @@ export default function YmsCharts({ lineData = [], barData = [] }) {
         </div>
       </div>
 
-      <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200/80 dark:border-slate-700/80 p-6 shadow-sm hover:shadow-xl hover:shadow-slate-200/60 dark:hover:shadow-black/30 transition-all">
+      <div className="glass-tile-dark p-6">
         <h3 className="text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-4">
           Status Distribution
         </h3>
