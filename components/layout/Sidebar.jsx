@@ -14,6 +14,7 @@ export default function Sidebar({ isAdmin = false }) {
     { name: 'Control Center', href: '/control-center', icon: Gauge },
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
     { name: 'YMS Overview', href: '/dashboard/yms', icon: Truck },
+    { name: 'Yard', href: '/dashboard/yms/yard', icon: LayoutGrid },
     { name: 'Inbound', href: '/dashboard/inbound', icon: Download },
     { name: 'Outbound', href: '/dashboard/outbound', icon: Upload },
     { name: 'Pick/Pack', href: '/dashboard/pick-pack', icon: LayoutGrid },

@@ -64,7 +64,8 @@
     transition: all 0.25s ease;
   }
 
-  .glass-tile-dark {
+  .glass-tile-dark,
+  .dark .glass-tile {
     background: rgba(17, 24, 39, 0.55);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);

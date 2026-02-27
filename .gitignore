@@ -14,3 +14,4 @@ build
 # local env files (THIS KEEPS YOUR AIRTABLE KEYS SAFE)
 .env*.local
 .env
+.vercel
