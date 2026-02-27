@@ -5,6 +5,7 @@ import { Building2, AlertCircle, CheckCircle2 } from 'lucide-react';
 import AutoRefresh from '../../components/AutoRefresh';
 import { getFacility_Metrics } from '../../lib/airtable';
 import BrandWordmark from '../../components/BrandWordmark';
+import Card from '../../components/ui/Card';
 
 export default async function Facilities() {
   const facilities = await getFacility_Metrics();
@@ -29,9 +30,9 @@ export default async function Facilities() {
           const isOptimal = site.facilityUPH >= 1450;
 
           return (
-            <div
+            <Card
               key={site.id}
-              className="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col"
+              className="cursor-pointer flex flex-col"
             >
 
               {/* CARD HEADER */}
@@ -106,7 +107,7 @@ export default async function Facilities() {
 
               </div>
 
-            </div>
+            </Card>
           );
         })}
       </div>

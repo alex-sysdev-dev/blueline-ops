@@ -34,6 +34,10 @@ export default function DeepDive() {
 
   useEffect(() => {
     setMounted(true); // Fixes the red error screen mismatch
+    if (table === 'YMS_Log') {
+      router.replace('/dashboard/yms');
+      return;
+    }
     const interval = setInterval(() => {
       setLivePace(prev => {
         const next = +(prev + (Math.random() * 0.4 - 0.2)).toFixed(1);

@@ -6,8 +6,9 @@ export default function Card({ children, className = "" }) {
         p-6
         rounded-2xl
         shadow-sm
-        border border-slate-200 dark:border-slate-700
-        hover:shadow-xl hover:-translate-y-1
+        border border-slate-200/80 dark:border-slate-700/80
+        hover:shadow-xl hover:shadow-slate-200/60 dark:hover:shadow-black/30
+        hover:-translate-y-1 hover:border-slate-300 dark:hover:border-slate-600
         transition-all duration-300
         ${className}
       `}

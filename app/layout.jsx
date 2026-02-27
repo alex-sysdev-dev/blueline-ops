@@ -1,13 +1,13 @@
 import './globals.css';
-import { Outfit, Space_Grotesk } from 'next/font/google';
+import { Sora, Manrope } from 'next/font/google';
 import LayoutShell from '../components/layout/layoutshell';
 
-const outfit = Outfit({
+const manrope = Manrope({
   subsets: ['latin'],
   variable: '--font-body',
 });
 
-const spaceGrotesk = Space_Grotesk({
+const sora = Sora({
   subsets: ['latin'],
   variable: '--font-heading',
   weight: ['300', '400', '500', '600', '700'],
@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${outfit.variable} ${spaceGrotesk.variable} ${outfit.className} bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300`}
+        className={`${manrope.variable} ${sora.variable} ${manrope.className} bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300`}
       >
         <LayoutShell>
           {children}

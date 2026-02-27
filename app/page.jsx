@@ -33,7 +33,7 @@ export default function LandingPage() {
         <div className="flex flex-col items-center gap-3">
           <Link
             href="/control-center"
-            className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold text-lg transition shadow-lg"
+            className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1"
           >
             Enter Platform
           </Link>
@@ -41,7 +41,7 @@ export default function LandingPage() {
           {/* Subtle Admin Link */}
           <Link
             href="/login"
-            className="text-xs text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 transition"
+            className="text-xs text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 transition-all duration-300 hover:underline"
           >
             Admin Access
           </Link>
