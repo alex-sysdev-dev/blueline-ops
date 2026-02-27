@@ -15,12 +15,14 @@ export default function LandingPage() {
           <img
             src="/brand/logo-light.svg"
             alt="BlueLine Ops"
-            className="h-[200px] md:h-[260px] w-auto dark:hidden"
+            className="block h-[200px] md:h-[260px] w-auto dark:hidden"
+            loading="eager"
           />
           <img
             src="/brand/logo-dark.svg"
             alt="BlueLine Ops"
-            className="h-[200px] md:h-[260px] w-auto hidden dark:block"
+            className="block h-[200px] md:h-[260px] w-auto hidden dark:block"
+            loading="eager"
           />
         </div>
 
