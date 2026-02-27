@@ -5,7 +5,12 @@ const PUBLIC_PATHS = ["/", "/login", "/control-center"];
 export function middleware(req) {
   const { pathname } = req.nextUrl;
 
-  if (pathname.startsWith("/_next") || pathname.startsWith("/api/auth")) {
+  if (
+    pathname.startsWith("/_next") ||
+    pathname.startsWith("/api/auth") ||
+    pathname.startsWith("/brand/") ||
+    pathname.match(/\.(svg|png|jpg|jpeg|webp|gif|ico)$/)
+  ) {
     return NextResponse.next();
   }
 
