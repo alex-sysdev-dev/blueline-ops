@@ -84,6 +84,97 @@ export async function GET() {
       }
     }]);
 
+    // --- Associate Performance (50 on shift, unique roles) ---
+    const roster = [
+      'Alex Carter','Jamie Brooks','Jordan Blake','Taylor Reed','Morgan Hayes','Riley Quinn','Casey Parker','Avery Moore','Cameron Shaw','Drew Foster',
+      'Quinn Harper','Logan Price','Peyton Cole','Reese Morgan','Rowan Ellis','Skyler James','Hayden Ross','Dakota Lane','Spencer Gray','Elliot Cruz',
+      'Blake Sutton','Emerson Ward','Finley Grant','Harper Stone','Jules Bennett','Kai Sullivan','Kendall Fox','Lennon Watts','Micah Reed','Nico Alvarez',
+      'Oakley Pierce','Parker Vaughn','Remy Collins','River Hayes','Rory Mitchell','Sawyer Flynn','Shiloh Brooks','Sloane Carter','Tatum Price','Teagan Reed',
+      'Wren Calloway','Zion Brooks','Ari Jenkins','Bay Lee','Charlie Nguyen','Devin Kim','Frankie Lopez','Gale Torres','Harley Ortiz','Indie Russell',
+      'Jesse Patel','Kieran Brooks','Lane Johnson','Marley Woods','Noah Rivera','Olive Grant','Phoenix Reed','Riley Stone','Sage Walker','Terry Adams'
+    ];
+
+    const shuffle = (arr) => arr.sort(() => Math.random() - 0.5);
+    const shuffled = shuffle([...roster]);
+    const onShift = shuffled.slice(0, 50).map((name, idx) => ({
+      id: `EMP-${String(idx + 1).padStart(3, '0')}`,
+      name,
+      label: `EMP-${String(idx + 1).padStart(3, '0')} - ${name}`
+    }));
+
+    const allocation = {
+      Outbound: 18,
+      Inbound: 14,
+      QA: 6,
+      'Problem Solve': 12
+    };
+
+    const assignments = [];
+    let cursor = 0;
+    Object.entries(allocation).forEach(([department, count]) => {
+      const slice = onShift.slice(cursor, cursor + count);
+      slice.forEach((person) => assignments.push({ ...person, department }));
+      cursor += count;
+    });
+
+    const randomRange = (min, max, decimals = 0) => {
+      const val = Math.random() * (max - min) + min;
+      return decimals ? Number(val.toFixed(decimals)) : Math.round(val);
+    };
+
+    const assocRecords = assignments.map((person) => {
+      let uphMin = 70, uphMax = 120, qsMin = 0.95, qsMax = 0.99, scansMin = 15, scansMax = 35;
+      if (person.department === 'Outbound') { uphMin = 85; uphMax = 130; qsMin = 0.96; qsMax = 0.995; scansMin = 20; scansMax = 40; }
+      if (person.department === 'Inbound') { uphMin = 75; uphMax = 120; qsMin = 0.95; qsMax = 0.99; scansMin = 15; scansMax = 35; }
+      if (person.department === 'QA') { uphMin = 60; uphMax = 100; qsMin = 0.98; qsMax = 1.0; scansMin = 10; scansMax = 25; }
+      if (person.department === 'Problem Solve') { uphMin = 50; uphMax = 90; qsMin = 0.95; qsMax = 0.99; scansMin = 5; scansMax = 20; }
+
+      return {
+        fields: {
+          Timestamp: timestamp,
+          Employee_ID: person.label,
+          Department: person.department,
+          Current_UPH: randomRange(uphMin, uphMax),
+          Quality_Score_Pct: randomRange(qsMin, qsMax, 3),
+          Dwell_Time_Mins: randomRange(0, 12),
+          Total_Scans: randomRange(scansMin, scansMax)
+        }
+      };
+    });
+
+    // batch create (Airtable max 10 per request)
+    for (let i = 0; i < assocRecords.length; i += 10) {
+      await base('Associate_Performance').create(assocRecords.slice(i, i + 10));
+    }
+
+    // --- Stations (Pick/Pack) ---
+    const stationRecords = await base('Stations').select({ maxRecords: 200 }).firstPage();
+    const pickStations = stationRecords.filter((r) => r.get('Type') === 'Pick');
+    const packStations = stationRecords.filter((r) => r.get('Type') === 'Pack');
+
+    const outboundPeople = assignments.filter((p) => p.department === 'Outbound');
+    const statusPool = ['Active', 'Active', 'Active', 'Inactive', 'Maintenance'];
+
+    const stationUpdates = [...pickStations, ...packStations].map((rec, idx) => {
+      const person = outboundPeople[idx % outboundPeople.length];
+      const status = statusPool[Math.floor(Math.random() * statusPool.length)];
+      const isActive = status === 'Active';
+      return {
+        id: rec.id,
+        fields: {
+          Status: status,
+          Associate: person ? person.label : '',
+          Current_UPH: isActive ? randomRange(90, 140) : 0,
+          Orders_In_Progress: isActive ? randomRange(0, 12) : 0,
+          Last_Activity: timestamp
+        }
+      };
+    });
+
+    for (let i = 0; i < stationUpdates.length; i += 10) {
+      await base('Stations').update(stationUpdates.slice(i, i + 10));
+    }
+
     return NextResponse.json({
       success: true,
       message: 'Simulation data populated successfully.'

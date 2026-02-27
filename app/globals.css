@@ -7,6 +7,14 @@
     font-family: var(--font-body), sans-serif;
   }
 
+  button {
+    @apply transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md;
+  }
+
+  a {
+    @apply transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md;
+  }
+
   h1,
   h2,
   h3,
