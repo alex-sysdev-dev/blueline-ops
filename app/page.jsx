@@ -38,7 +38,7 @@ export default function LandingPage() {
               href="/control-center"
               className="glass-tile-dark px-8 py-4 text-blue-100 rounded-2xl font-semibold text-lg"
             >
-              Enter Platform
+              Welcome
             </Link>
 
             {/* Subtle Admin Link */}
