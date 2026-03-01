@@ -1,22 +1,32 @@
 // app/facilities/page.jsx
-
 import React from 'react';
 import { Building2, AlertCircle, CheckCircle2 } from 'lucide-react';
 import AutoRefresh from '../../components/AutoRefresh';
-import { getFacility_Metrics } from '../../lib/airtable';
+import { supabase } from '../../lib/supabase';
 import BrandWordmark from '../../components/BrandWordmark';
-import Card from '../../components/ui/Card';
+import Card from '../../components/ui/Card'; // Path restored to /ui/
+
+export const dynamic = 'force-dynamic';
 
 export default async function Facilities() {
-  const facilities = await getFacility_Metrics();
+  const { data: facilities, error } = await supabase
+    .from('facility_metrics')
+    .select('*')
+    .order('timestamp', { ascending: false });
+
+  if (error) {
+    console.error("Supabase Error:", error.message);
+    return <div className="p-10 text-red-500">Error loading facility network.</div>;
+  }
 
   return (
-    <div>
+    <div className="space-y-8">
       
       {/* HEADER */}
-      <header className="mb-8">
-        <h1 className="text-3xl md:text-4xl font-extrabold text-slate-800 dark:text-white tracking-tight flex items-center gap-3">
+      <header>
+        <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight flex items-center gap-3">
           <BrandWordmark />
+          <span className="text-slate-500 dark:text-slate-400 font-medium">|</span>
           <span>Facility Network</span>
         </h1>
       </header>
@@ -26,13 +36,13 @@ export default async function Facilities() {
 
       {/* GRID */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {facilities.map((site) => {
-          const isOptimal = site.facilityUPH >= 1450;
+        {(facilities || []).map((site) => {
+          const isOptimal = site.facility_uph >= 1450;
 
           return (
             <Card
               key={site.id}
-              className="cursor-pointer flex flex-col"
+              className="flex flex-col h-full"
             >
 
               {/* CARD HEADER */}
@@ -42,7 +52,7 @@ export default async function Facilities() {
                     <Building2 size={20} />
                   </div>
                   <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100">
-                    {new Date(site.timestamp).toLocaleTimeString()}
+                    {site.facility_name || 'Active Site'}
                   </h2>
                 </div>
 
@@ -63,50 +73,44 @@ export default async function Facilities() {
                   Facility UPH
                 </p>
                 <p className="text-4xl font-extrabold text-slate-900 dark:text-white">
-                  {site.facilityUPH}
+                  {site.facility_uph}
                 </p>
               </div>
 
               {/* SECONDARY METRICS */}
-              <div className="grid grid-cols-2 gap-4 mt-auto border-t border-slate-100 dark:border-slate-700 pt-4 text-sm">
+              <div className="grid grid-cols-2 gap-4 mt-auto border-t border-slate-100 dark:border-slate-800 pt-4 text-sm">
                 
                 <div>
-                  <p className="text-slate-500 dark:text-slate-400">
-                    Labor / Unit
-                  </p>
-                  <p className="font-semibold">
-                    ${Number(site.laborCostPerUnit).toFixed(2)}
+                  <p className="text-slate-500 dark:text-slate-400">Labor / Unit</p>
+                  <p className="font-semibold text-slate-900 dark:text-slate-200">
+                    ${Number(site.labor_cost_per_unit || 0).toFixed(2)}
                   </p>
                 </div>
 
                 <div>
-                  <p className="text-slate-500 dark:text-slate-400">
-                    CPT Risk
-                  </p>
-                  <p
-                    className={`font-semibold ${
-                      site.cptRisk === 'High'
-                        ? 'text-red-500'
-                        : site.cptRisk === 'Medium'
-                        ? 'text-yellow-500'
-                        : 'text-emerald-500'
-                    }`}
-                  >
-                    {site.cptRisk}
+                  <p className="text-slate-500 dark:text-slate-400">CPT Risk</p>
+                  <p className={`font-semibold ${
+                      site.cpt_risk === 'High' ? 'text-rose-500' : 
+                      site.cpt_risk === 'Medium' ? 'text-amber-500' : 'text-emerald-500'
+                    }`}>
+                    {site.cpt_risk}
                   </p>
                 </div>
 
                 <div>
-                  <p className="text-slate-500 dark:text-slate-400">
-                    Safety Incidents
+                  <p className="text-slate-500 dark:text-slate-400">Safety</p>
+                  <p className="font-semibold text-slate-900 dark:text-slate-200">
+                    {site.safety_incidents} Incidents
                   </p>
-                  <p className="font-semibold">
-                    {site.safetyIncidents}
-                  </p>
+                </div>
+
+                <div className="text-right flex items-end justify-end">
+                   <p className="text-[10px] text-slate-400 uppercase">
+                     {new Date(site.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                   </p>
                 </div>
 
               </div>
-
             </Card>
           );
         })}

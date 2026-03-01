@@ -2,15 +2,33 @@ import React from 'react';
 import Card from '../../../components/ui/Card';
 import Link from 'next/link';
 import PickPackFloorplan from '../../../components/dashboard/PickPackFloorplan';
-import { getPickPackStations, getOrders } from '../../../lib/airtable';
 import AutoRefresh from '../../../components/AutoRefresh';
 
+// 1. BYE BYE AIRTABLE! Hello Supabase.
+import { supabase } from '../../../lib/supabase';
 
 export default async function PickPackStations() {
-  const [stations, orders] = await Promise.all([
-    getPickPackStations(),
-    getOrders(300)
+  // 2. Fetch from Supabase simultaneously
+  const [stationsRes, ordersRes] = await Promise.all([
+    supabase.from('pick_pack_stations').select('*'),
+    supabase.from('orders').select('*')
   ]);
+
+  const rawStations = stationsRes.data || [];
+  const rawOrders = ordersRes.data || [];
+
+  // 3. Map Supabase snake_case to the camelCase your components expect
+  const stations = rawStations.map(s => ({
+    ...s,
+    currentUph: s.current_uph // matching the old Airtable format
+  }));
+
+  const orders = rawOrders.map(o => ({
+    ...o,
+    activeFlag: o.active_flag // matching the old Airtable format
+  }));
+
+  // The rest of your logic stays exactly the same!
   const activeStations = stations.filter((s) => Number(s.currentUph) > 0);
   const avgUph = activeStations.length
     ? Math.round(activeStations.reduce((sum, s) => sum + Number(s.currentUph || 0), 0) / activeStations.length)
@@ -41,7 +59,7 @@ export default async function PickPackStations() {
         </div>
         <Link
           href="/dashboard/pick-pack/floorplan"
-          className="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-slate-900 text-white text-sm font-semibold hover:bg-slate-800 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+          className="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-slate-900 text-white text-sm font-semibold hover:bg-slate-800 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md dark:bg-slate-800 dark:hover:bg-slate-700"
         >
           Open Floorplan View
         </Link>

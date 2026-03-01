@@ -8,15 +8,12 @@ export default function AutoRefresh({ intervalSeconds = 10 }) {
   const router = useRouter();
 
   useEffect(() => {
-    // Convert seconds to milliseconds
     const ms = intervalSeconds * 1000;
     
-    // Set up the polling loop
     const timer = setInterval(() => {
-      router.refresh(); // This tells Next.js to quietly pull the latest Airtable data!
+      router.refresh(); // Quietly pulls the latest data
     }, ms);
 
-    // Clean up the timer if the user leaves the page
     return () => clearInterval(timer);
   }, [router, intervalSeconds]);
 

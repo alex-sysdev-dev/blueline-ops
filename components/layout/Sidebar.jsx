@@ -26,25 +26,32 @@ export default function Sidebar({ isAdmin = false }) {
   ];
 
   return (
-    <aside className="fixed bottom-0 left-0 z-40 w-full bg-slate-900 border-t border-slate-800 md:relative md:w-64 md:min-h-screen md:border-t-0 md:border-r md:flex md:flex-col transition-colors duration-300">
+    <aside className="fixed bottom-0 left-0 z-40 w-full bg-white border-t border-slate-200 dark:bg-slate-900 dark:border-slate-800 md:relative md:w-64 md:min-h-screen md:border-t-0 md:border-r md:flex md:flex-col transition-colors duration-300">
       
-      {/* Brand logo - Hidden on phones, visible on desktop */}
-      <Link href="/" className="hidden md:flex p-6 items-center gap-3 text-white">
+      {/* Brand logo */}
+      <Link href="/" className="hidden md:flex p-6 items-center gap-3 text-slate-900 dark:text-white">
+        {/* Shows in Light Mode */}
         <img
-          src="/brand/logo-header.svg"
+          src="/brand/logo-dark.svg" 
           alt="BlueLineOps"
-          className="h-8 w-8"
+          className="h-8 w-8 block dark:hidden"
+        />
+        {/* Shows in Dark Mode */}
+        <img
+          src="/brand/logo-light.svg" 
+          alt="BlueLineOps"
+          className="h-8 w-8 hidden dark:block"
         />
         <BrandWordmark
           className="text-xl font-extrabold tracking-wider"
-          blueClassName="text-blue-500"
-          restClassName="text-white"
+          blueClassName="text-blue-600 dark:text-blue-400"
+          restClassName="text-slate-900 dark:text-white"
           uppercase
         />
       </Link>
 
-      {/* Navigation links - Row on phones, Column on desktop */}
-      <nav className="flex flex-row justify-around items-center h-14 md:flex-col md:h-auto md:flex-1 md:px-3 md:py-4 md:space-y-1.5 md:justify-start">
+      {/* Navigation links */}
+      <nav className="flex flex-row justify-around items-center h-14 md:flex-col md:h-auto md:flex-1 md:px-3 md:py-4 md:space-y-1.5 md:justify-start overflow-y-auto">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
           const Icon = item.icon;
@@ -53,13 +60,15 @@ export default function Sidebar({ isAdmin = false }) {
             <Link
               key={item.name}
               href={item.href}
-              className={`flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 w-auto h-full md:w-full md:h-auto md:px-3 md:py-2 md:rounded-lg transition-all duration-200 font-medium hover:bg-slate-800/80 hover:shadow-[0_0_18px_rgba(59,130,246,0.45)] hover:ring-1 hover:ring-blue-500/40 ${
+              className={`flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 w-auto h-full md:w-full md:h-auto md:px-3 md:py-2 md:rounded-lg transition-all duration-200 font-medium 
+                hover:bg-slate-100 dark:hover:bg-slate-800/80 
+                ${
                 isActive 
-                  ? 'text-blue-500 md:bg-blue-600 md:text-white md:shadow-md md:shadow-blue-600/20' 
-                  : 'text-slate-400 hover:text-white'
+                  ? 'text-blue-600 bg-blue-50 md:bg-blue-600 md:text-white md:shadow-md md:shadow-blue-600/20 dark:text-white dark:bg-slate-800 dark:md:bg-blue-600' 
+                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
-              <Icon size={18} className={isActive ? "md:text-white" : ""} />
+              <Icon size={18} className={isActive ? "md:text-white dark:text-white" : ""} />
               <span className="text-[10px] md:text-sm">{item.name}</span>
             </Link>
           );

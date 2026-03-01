@@ -1,89 +1,48 @@
-import { getYardSpots } from '../../../../lib/airtable';
-import Link from 'next/link';
+// app/dashboard/yms/yard/page.jsx
+import AutoRefresh from "../../../../components/AutoRefresh";
+import YmsClient from "../../../../components/dashboard/YmsClient";
+import { supabase } from "../../../../lib/supabase";
 
 export const dynamic = 'force-dynamic';
 
-export const metadata = {
-  title: 'Yard',
-};
-
 export default async function YardLayoutPage() {
-  const spots = await getYardSpots();
+  const { data: spots, error } = await supabase
+    .from('yard_spots')
+    .select('spot_id, row, position, current_trailer')
+    .order('row', { ascending: true })
+    .order('position', { ascending: true });
 
-  // Group by row (lowercase now)
+  if (error) console.error("Supabase Error:", error.message);
+
+  const safeSpots = (spots || []).map(spot => ({
+    ...spot,
+    name: spot.spot_id,
+    status: spot.current_trailer ? 'Occupied' : 'Empty'
+  }));
+
   const rows = {};
-
-  spots.forEach((spot) => {
-    if (!rows[spot.row]) rows[spot.row] = [];
-    rows[spot.row].push(spot);
+  safeSpots.forEach((spot) => {
+    if (spot.name) {
+      const rowLabel = spot.name.charAt(0).toUpperCase();
+      if (!rows[rowLabel]) rows[rowLabel] = [];
+      rows[rowLabel].push(spot);
+    }
   });
 
-  const sortedRows = Object.keys(rows)
-    .sort((a, b) => Number(a) - Number(b))
-    .map((rowKey) => ({
-      row: rowKey,
-      spots: rows[rowKey].sort(
-        (a, b) => Number(a.position) - Number(b.position)
-      ),
-    }));
-
   return (
-    <div className="min-h-screen p-8">
-      {/* Header */}
-      <div className="mb-8">
-        <Link
-          href="/dashboard/yms"
-          className="text-sm text-slate-500 hover:text-blue-600"
-        >
-          ← Back to YMS Overview
-        </Link>
-
-        <h1 className="text-4xl font-black mt-4">
-          <span className="text-blue-600">Yard</span> Layout
+    <div className="space-y-6">
+      <AutoRefresh intervalSeconds={10} />
+      
+      <header>
+        <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+          YMS <span className="text-blue-600 dark:text-blue-400">Yard</span>
         </h1>
-        <p className="text-slate-500 mt-2">
-          Real-time physical yard visualization
+        <p className="text-slate-500 dark:text-slate-400 mt-1">
+          Real-time trailer positions and spot status.
         </p>
-      </div>
+      </header>
 
-      {/* Grid */}
-      <div className="space-y-6">
-        {sortedRows.map((row) => (
-          <div key={row.row}>
-            <h2 className="text-xs uppercase font-bold text-slate-400 mb-2">
-              Row {row.row}
-            </h2>
-
-            <div className="flex flex-wrap gap-3">
-              {row.spots.map((spot) => (
-                <YardTile key={spot.id} spot={spot} />
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function YardTile({ spot }) {
-  const occupied = spot.occupiedNumeric === 1;
-
-  const baseClasses =
-    'w-20 h-20 flex flex-col items-center justify-center text-xs font-bold glass-tile';
-  const statusClasses = occupied
-    ? 'bg-blue-600 text-white border-blue-600'
-    : 'text-slate-700 dark:text-slate-200';
-
-  return (
-    <div className={`${baseClasses} ${statusClasses}`}>
-      <div>{spot.spotId}</div>
-
-      {occupied && (
-        <div className="text-[10px] mt-1 opacity-90">
-          {spot.currentTrailerNumber || '—'}
-        </div>
-      )}
+      <YmsClient initialRows={rows} />
     </div>
   );
 }

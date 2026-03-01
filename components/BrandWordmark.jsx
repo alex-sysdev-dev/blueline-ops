@@ -11,7 +11,8 @@ export default function BrandWordmark({
 
   return (
     <span className={className}>
-      <span className={blueClassName}>{blueText}</span><span className={restClassName}>{restText}</span>
+      <span className={blueClassName}>{blueText}</span>
+      <span className={restClassName}>{restText}</span>
     </span>
   );
 }

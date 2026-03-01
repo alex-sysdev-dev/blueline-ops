@@ -1,11 +1,17 @@
 import React from 'react';
 import Card from '../../../../components/ui/Card';
 import PickPackFloorplan from '../../../../components/dashboard/PickPackFloorplan';
-import { getPickPackStations } from '../../../../lib/airtable';
 import AutoRefresh from '../../../../components/AutoRefresh';
+import { supabase } from '../../../../lib/supabase';
 
 export default async function PickPackFloorplanOnly() {
-  const stations = await getPickPackStations();
+  const { data } = await supabase.from('pick_pack_stations').select('*');
+  
+  // Map it to ensure camelCase compatibility with your UI component
+  const stations = (data || []).map(s => ({
+    ...s,
+    currentUph: s.current_uph 
+  }));
 
   return (
     <div className="space-y-4">

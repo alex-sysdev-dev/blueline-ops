@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 
 const PUBLIC_PATHS = ["/", "/login", "/control-center"];
 
-export function middleware(req) {
-  const { pathname } = req.nextUrl;
+export function middleware(request) {
+  const { pathname } = request.nextUrl;
 
   if (
     pathname.startsWith("/_next") ||
@@ -18,10 +18,10 @@ export function middleware(req) {
     return NextResponse.next();
   }
 
-  const isAdmin = req.cookies.get("blueline_admin")?.value === "1";
+  const isAdmin = request.cookies.get("blueline_admin")?.value === "1";
+
   if (!isAdmin) {
-    const url = new URL("/login", req.url);
-    return NextResponse.redirect(url);
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 
   return NextResponse.next();

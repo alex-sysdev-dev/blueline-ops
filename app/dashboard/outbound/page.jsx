@@ -2,11 +2,25 @@ import React from 'react';
 import Card from '../../../components/ui/Card';
 import Link from 'next/link';
 import AssociateList from '../../../components/dashboard/AssociateList';
-import { getAssociatesByDepartment } from '../../../lib/airtable';
 import AutoRefresh from '../../../components/AutoRefresh';
 
+// 1. Remove the Airtable import and bring in Supabase!
+// Make sure this path points to wherever you set up your Supabase client
+import { supabase } from '../../../lib/supabase'; 
+
 export default async function OutboundDashboard() {
-  const associates = await getAssociatesByDepartment('Outbound');
+  // 2. Fetch the associates directly from the new Supabase table
+  const { data: associates, error } = await supabase
+    .from('associates')
+    .select('*')
+    .eq('department', 'Outbound');
+
+  if (error) {
+    console.error("Error fetching associates from Supabase:", error.message);
+  }
+
+  // Fallback to an empty array just in case there's no data yet
+  const safeAssociates = associates || [];
 
   return (
     <div className="space-y-6">
@@ -38,7 +52,7 @@ export default async function OutboundDashboard() {
 
       <section>
         <Link href="/dashboard/pick-pack" className="block">
-          <Card className="p-4 flex items-center justify-between cursor-pointer">
+          <Card className="p-4 flex items-center justify-between cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
             <div>
               <p className="text-xs uppercase tracking-widest text-slate-500 dark:text-slate-400">
                 Pick & Pack Stations
@@ -56,7 +70,8 @@ export default async function OutboundDashboard() {
         <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4">
           Outbound Associates
         </h2>
-        <AssociateList associates={associates} />
+        {/* 3. Pass the Supabase data into your existing component */}
+        <AssociateList associates={safeAssociates} />
       </section>
     </div>
   );
